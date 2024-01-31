@@ -21,7 +21,7 @@ jobs:
           node-version: ${{matrix.node-version}}
       - name: Upgrade npm
         run: npm install -g npm@latest
-      - run: npm install --production
+      - run: npm install
 
   publish-npm:
     runs-on: ubuntu-latest
