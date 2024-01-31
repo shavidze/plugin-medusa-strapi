@@ -1,6 +1,6 @@
 {
   "name": "commerce-plugin-strapi",
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "description": "Strapi plugin for Medusa Commerce",
   "main": "index.js",
   "keywords": [
