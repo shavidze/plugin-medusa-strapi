@@ -40,7 +40,7 @@
     "semantic-release": "^23.0.0"
   },
   "scripts": {
-    "build": "babel src -d .",
+    "build": "npx babel src -d .",
     "prepare": "cross-env NODE_ENV=production npm run build",
     "watch": "babel -w src --out-dir . --ignore **/__tests__",
     "test": "jest",

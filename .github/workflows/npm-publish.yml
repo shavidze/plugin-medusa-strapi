@@ -36,5 +36,5 @@ jobs:
       - run: npm ci
       - run: npm run semantic-release
         env:
-          MEDUSA_STRAPI_PLUGIN_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.MEDUSA_STRAPI_PLUGIN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
