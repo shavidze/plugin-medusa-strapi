@@ -34,8 +34,9 @@ class UpdateStrapiService extends BaseService {
 
     this.protocol = this.options_.strapi_protocol
 
-    this.strapi_URL_STRING=`${this.protocol??"https"}://${this.options_.strapi_url??"localhost"}:${this.options_.strapi_port??1337}`
-
+    this.strapi_URL_STRING = `${this.protocol ?? "https"}://${
+      this.options_.strapi_url ?? "localhost"
+    }:${this.options_.strapi_port ?? 1337}`
 
     this.strapiAuthToken = ""
 
@@ -115,7 +116,7 @@ class UpdateStrapiService extends BaseService {
     }
 
     // eslint-disable-next-line no-useless-catch
-    let relations= [
+    let relations = [
       "options",
       "variants",
       "variants.prices",
@@ -125,8 +126,8 @@ class UpdateStrapiService extends BaseService {
       "tags",
       "images",
     ]
-    if(process.env.MEDUSA_FF_PRODUCT_CATEGORIES === "true"){
-      relations.push("categories");
+    if (process.env.MEDUSA_FF_PRODUCT_CATEGORIES === "true") {
+      relations.push("categories")
     }
     try {
       const product = await this.productService_.retrieve(productId, {
@@ -138,6 +139,7 @@ class UpdateStrapiService extends BaseService {
           "description",
           "handle",
           "is_giftcard",
+          "status",
           "discountable",
           "thumbnail",
           "weight",
@@ -153,9 +155,13 @@ class UpdateStrapiService extends BaseService {
       })
 
       if (product) {
-        const response = await this.createEntryInStrapi("products", productId, product);
-        console.log("Product Strapi Id - ", response);
-        return response;
+        const response = await this.createEntryInStrapi(
+          "products",
+          productId,
+          product
+        )
+        console.log("Product Strapi Id - ", response)
+        return response
       }
     } catch (error) {
       throw error
@@ -183,9 +189,9 @@ class UpdateStrapiService extends BaseService {
           "product-variants",
           variantId,
           variant
-        );
-        console.log("Product Variant Strapi Id - ", response);
-        return response;
+        )
+        console.log("Product Variant Strapi Id - ", response)
+        return response
       }
     } catch (error) {
       throw error
@@ -214,9 +220,13 @@ class UpdateStrapiService extends BaseService {
       })
 
       // console.log(region)
-      const response = await this.createEntryInStrapi("regions", regionId, region);
-      console.log("Region Strapi Id - ", response);
-      return response;
+      const response = await this.createEntryInStrapi(
+        "regions",
+        regionId,
+        region
+      )
+      console.log("Region Strapi Id - ", response)
+      return response
     } catch (error) {
       throw error
     }
@@ -311,7 +321,7 @@ class UpdateStrapiService extends BaseService {
       "collection",
       "collection_id",
       "thumbnail",
-      "categories"
+      "categories",
     ]
 
     // check if update contains any fields in Strapi to minimize runs
@@ -330,7 +340,7 @@ class UpdateStrapiService extends BaseService {
         return Promise.resolve()
       }
 
-      let relations= [
+      let relations = [
         "options",
         "variants",
         "variants.prices",
@@ -340,8 +350,8 @@ class UpdateStrapiService extends BaseService {
         "tags",
         "images",
       ]
-      if(process.env.MEDUSA_FF_PRODUCT_CATEGORIES === "true"){
-        relations.push("categories");
+      if (process.env.MEDUSA_FF_PRODUCT_CATEGORIES === "true") {
+        relations.push("categories")
       }
 
       const product = await this.productService_.retrieve(data.id, {
@@ -353,6 +363,7 @@ class UpdateStrapiService extends BaseService {
           "description",
           "handle",
           "is_giftcard",
+          "status",
           "discountable",
           "thumbnail",
           "weight",
@@ -368,9 +379,12 @@ class UpdateStrapiService extends BaseService {
       })
 
       if (product) {
-        const response = await this.updateEntryInStrapi("products", product.id, product)
+        const response = await this.updateEntryInStrapi(
+          "products",
+          product.id,
+          product
+        )
         console.log("Product Strapi Id - ", response)
-
       }
 
       return product
@@ -495,17 +509,24 @@ class UpdateStrapiService extends BaseService {
 
     // eslint-disable-next-line no-useless-catch
     try {
-      const productCategory = await this.productCategory_.retrieve(productCategoryId, {
-        relations: [
-          "parent_category",
-        //   "category_children",
-        ],
-        select: ["id", "name", "description", "handle"],
-      })
-        
-      const response = await this.createEntryInStrapi("product-categories", productCategoryId, productCategory);
-      console.log("Product-Category Strapi Id - ", response);
-      return response;
+      const productCategory = await this.productCategory_.retrieve(
+        productCategoryId,
+        {
+          relations: [
+            "parent_category",
+            //   "category_children",
+          ],
+          select: ["id", "name", "description", "handle"],
+        }
+      )
+
+      const response = await this.createEntryInStrapi(
+        "product-categories",
+        productCategoryId,
+        productCategory
+      )
+      console.log("Product-Category Strapi Id - ", response)
+      return response
     } catch (error) {
       throw error
     }
@@ -576,7 +597,6 @@ class UpdateStrapiService extends BaseService {
     return await this.deleteEntryInStrapi("product-categories", data.id)
   }
 
-
   async createProductCollectionInStrapi(productCollectionId) {
     const hasType = await this.getType("product-collections")
       .then(() => true)
@@ -588,13 +608,20 @@ class UpdateStrapiService extends BaseService {
 
     // eslint-disable-next-line no-useless-catch
     try {
-      const productCollection = await this.productCollection_.retrieve(productCollectionId, {
-        select: ["id", "title", "handle"],
-      })
+      const productCollection = await this.productCollection_.retrieve(
+        productCollectionId,
+        {
+          select: ["id", "title", "handle"],
+        }
+      )
 
-      const response = await this.createEntryInStrapi("product-collections", productCollectionId, productCollection);
-      console.log("Product Collection Strapi Id - ", response);
-      return response;
+      const response = await this.createEntryInStrapi(
+        "product-collections",
+        productCollectionId,
+        productCollection
+      )
+      console.log("Product Collection Strapi Id - ", response)
+      return response
     } catch (error) {
       throw error
     }
@@ -621,9 +648,12 @@ class UpdateStrapiService extends BaseService {
         return
       }
 
-      const productCollection = await this.productCollection_.retrieve(data.id, {
-        select: ["id", "title", "handle"],
-      })
+      const productCollection = await this.productCollection_.retrieve(
+        data.id,
+        {
+          select: ["id", "title", "handle"],
+        }
+      )
       // console.log(region)
 
       if (productCollection) {
@@ -661,58 +691,55 @@ class UpdateStrapiService extends BaseService {
     return await this.deleteEntryInStrapi("product-collections", data.id)
   }
 
+  async updateProductsWithinCollectionInStrapi(data) {
+    const hasType = this.getType("product-collections")
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+    if (!hasType) {
+      return { status: 400 }
+    }
 
+    // const updateFields = ['productIds', 'productCollection'];
 
-  async updateProductsWithinCollectionInStrapi(data){
-		const hasType = this.getType('product-collections')
-			.then(() => {
-				return true;
-			})
-			.catch(() => {
-				return false;
-			});
-		if (!hasType) {
-			return { status: 400 };
-		}
+    // if (!this.verifyDataContainsFields(data, updateFields)) {
+    // 	return { status: 400 };
+    // }
+    try {
+      for (const productId of data.productIds) {
+        const ignore = await this.shouldIgnore_(productId, "strapi")
+        if (ignore) {
+          this.logger.info(
+            "Strapi has just added this product to collection which triggered this function. IGNORING... "
+          )
+          continue
+        }
 
-		// const updateFields = ['productIds', 'productCollection'];
+        const product = await this.productService_.retrieve(productId, {
+          relations: ["collection"],
+          select: ["id"],
+        })
 
-		// if (!this.verifyDataContainsFields(data, updateFields)) {
-		// 	return { status: 400 };
-		// }
-		try {
-			for (const productId of data.productIds) {
-				const ignore = await this.shouldIgnore_(productId, 'strapi');
-				if (ignore) {
-					this.logger.info(
-						'Strapi has just added this product to collection which triggered this function. IGNORING... '
-					);
-					continue;
-				}
-
-				const product = await this.productService_.retrieve(productId, {
-					relations: ['collection'],
-					select: ['id'],
-				});
-
-				if (product) {
-				// 	// we're sending requests sequentially as the Strapi is having problems with deadlocks otherwise
-				// 	await this.adjustProductAndUpdateInStrapi(product, data, authInterface);
-        const response = await this.updateEntryInStrapi(
-          "products",
-          productId,
-          product
-        )
-				}
-			}
-			// return { status: 200 };
-		} catch (error) {
-			this.logger.error('Error updating products in collection', error);
-			throw error;
-		}
-		return { status: 400 };
-	}
-
+        if (product) {
+          // 	// we're sending requests sequentially as the Strapi is having problems with deadlocks otherwise
+          // 	await this.adjustProductAndUpdateInStrapi(product, data, authInterface);
+          const response = await this.updateEntryInStrapi(
+            "products",
+            productId,
+            product
+          )
+        }
+      }
+      // return { status: 200 };
+    } catch (error) {
+      this.logger.error("Error updating products in collection", error)
+      throw error
+    }
+    return { status: 400 }
+  }
 
   async getType(type) {
     if (!this.strapiAuthToken) {
@@ -772,7 +799,7 @@ class UpdateStrapiService extends BaseService {
       })
       .catch((error) => {
         if (error) {
-          throw new Error("\nError while trying to login to strapi\n"+error)
+          throw new Error("\nError while trying to login to strapi\n" + error)
         }
       })
   }
