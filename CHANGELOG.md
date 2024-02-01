@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/shavidze/plugin-medusa-strapi/compare/v1.0.0...v1.1.0) (2024-02-01)
+
+
+### Features
+
+* synchronize product fields ([e98dba1](https://github.com/shavidze/plugin-medusa-strapi/commit/e98dba15e0ec21525ef1b3e0988ed873c3f69d7f))
+
 # 1.0.0 (2024-01-31)
 
 
