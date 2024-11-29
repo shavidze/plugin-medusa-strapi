@@ -17,7 +17,7 @@ export default (app) => {
     "/seed",
     bodyParser.json(),
     middlewares.wrap(require("./seed").default)
-  )
+  );
 
-  return app
+  return app;
 }
