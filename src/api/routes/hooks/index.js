@@ -11,7 +11,7 @@ export default (app) => {
     "/update-medusa",
     bodyParser.json(),
     middlewares.wrap(require("./update-medusa").default)
-  )
+  );
 
   route.post(
     "/seed",
