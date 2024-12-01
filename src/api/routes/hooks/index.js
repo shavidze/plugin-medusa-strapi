@@ -13,7 +13,6 @@ export default (app) => {
     middlewares.wrap(require("./update-medusa").default)
   );
 
-  
   route.post(
     "/seed",
     bodyParser.json(),
